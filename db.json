@@ -1,0 +1,89 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Nokia",
+      "price": 500000,
+      "status": true
+    },
+    {
+      "name": "Fred",
+      "price": 10000,
+      "status": true,
+      "id": 2
+    },
+    {
+      "name": "Nguyễn Hoàng",
+      "price": "4",
+      "status": true,
+      "id": 3
+    },
+    {
+      "name": "123123dsa",
+      "price": "44444",
+      "status": false,
+      "id": 4
+    },
+    {
+      "name": "13123",
+      "price": 34232423423,
+      "status": true,
+      "id": 5
+    },
+    {
+      "name": "asdasd",
+      "price": 21313123,
+      "status": true,
+      "id": 6
+    },
+    {
+      "name": "Nguyễn Hoàng",
+      "price": 6,
+      "status": true,
+      "id": 7
+    },
+    {
+      "name": "Nguyễn Hoàng",
+      "price": 0,
+      "status": false,
+      "id": 8
+    },
+    {
+      "name": "asdasd",
+      "price": 0,
+      "status": true,
+      "isRedirect": false,
+      "id": 9
+    },
+    {
+      "name": "Nguyễn Hoàng",
+      "price": 231123213123123,
+      "status": true,
+      "id": 10
+    },
+    {
+      "name": "zxczcxzxc",
+      "price": 213123123,
+      "status": false,
+      "id": 11
+    },
+    {
+      "name": "",
+      "price": 0,
+      "status": false,
+      "id": 12
+    },
+    {
+      "name": "",
+      "price": 0,
+      "status": false,
+      "id": 13
+    },
+    {
+      "name": "",
+      "price": 0,
+      "status": false,
+      "id": 14
+    }
+  ]
+}
