@@ -1,10 +1,26 @@
 import React from 'react';
 import callApi from '../../uliti/callApi';
-class ProductForm extends React.Component{
+import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+class ProductForm extends React.Component {
     state = {
         name: '',
-        price: 0,
+        price: '',
         status: false,
+        id: undefined
+    }
+    componentDidMount = () => {
+        const { match } = this.props;
+        if(match){
+            callApi(`products/${match.params.id}`).then((res) => {
+                const editProduct = res.data;
+                this.setState({
+                    name: editProduct.name,
+                    price: editProduct.price,
+                    status: editProduct.status,
+                    id: match.params.id
+                })
+            })
+        }
     }
     onChange = (e) => {
         const name = e.target.name;
@@ -12,50 +28,71 @@ class ProductForm extends React.Component{
         this.setState({
             [name]: value
         })
-        
+
     }
     onSubmit = (e) => {
         e.preventDefault();
-        let newProduct = this.state;
-        newProduct['price'] = Number(newProduct['price']);
-        callApi('products', 'POST', newProduct).then(() => console.log('DONE'));
-        this.setState({
-            name: '',
-            price: 0,
-            status: false,
-        })
-        
+        let product = this.state;
+        product['price'] = Number(product['price']);
+        if(this.state.id){
+            callApi(`products/${this.state.id}`, 'PUT', product).then(() => this.props.history.goBack());
+            this.setState({
+                name: '',
+                price: '',
+                status: false,
+                id: undefined
+            })
+        }
+        else{
+            callApi('products', 'POST', product).then(() => {
+                this.props.history.goBack()
+            });
+            this.setState({
+                name: '',
+                price: '',
+                status: false,
+            })
+        }
     }
-    render(){
+    render() {
         const { name, price, status } = this.state;
-        return(
-            <form onSubmit={this.onSubmit}>
+        return (
+            <Form onSubmit={this.onSubmit}>
+                <FormGroup>
                     Tên:
-                    <input 
-                    type="text" 
-                    placeholder="Nhập tên sản phẩm" 
-                    name="name"
-                    value={name}
-                    onChange={this.onChange}               
+                        <Input
+                        type="text"
+                        placeholder="Nhập tên sản phẩm"
+                        name="name"
+                        value={name}
+                        onChange={this.onChange}
                     />
+                </FormGroup>
+                <FormGroup>
                     Giá tiền
-                    <input
-                    type="number" 
-                    name="price"
-                    value={price}
-                    onChange={this.onChange}
+                        <Input
+                        type="number"
+                        name="price"
+                        value={price}
+                        onChange={this.onChange}
                     />
-                    Trạng thái:
-                    <input 
-                    type="checkbox"
-                    name="status"
-                    checked={status}
-                    onChange={this.onChange} />
-                    Còn hàng                   
-                    <button type="submit">
-                        Thêm
-                    </button>
-                </form>
+                </FormGroup>
+                <FormGroup check>
+                    <Label check>
+                        <Input
+                            type="checkbox"
+                            name="status"
+                            checked={status}
+                            onChange={this.onChange} />
+                        Còn hàng
+                        </Label>
+                </FormGroup>
+                <Button
+                    type="submit"
+                    color="success">
+                    Thêm
+                    </Button>
+            </Form>
         )
     }
 }

@@ -10,7 +10,7 @@ class App extends React.Component {
         <div className="App">
           <div className="navbar">
             <Menu />
-          </div>          
+          </div>        
           <Switch>
             { this.showRoute() }
           </Switch>
