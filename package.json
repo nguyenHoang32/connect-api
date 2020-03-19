@@ -24,7 +24,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"npx json-server --watch db.json --port 4000\" ",
+    "start": "concurrently \"react-scripts start\" \"npx json-server --watch db.json --port https://obscure-lake-96240.herokuapp.com/4000\" ",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
