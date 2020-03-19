@@ -1,14 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table } from 'reactstrap';
-import callApi from '../../uliti/callApi'
 import ProductItem from '../ProductItem/ProductItem';
+import { actFetchProductsRequest, actDeleteProductRequest } from '../../action/index';
 class ProductList extends React.Component {
-    state = {
-        products: []
-    }
     render() {
-        const products = this.state.products;
+        const products = this.props.products;
         return (
             <div>
                 <Table>
@@ -30,12 +27,7 @@ class ProductList extends React.Component {
         )
     }
     componentDidMount = () => {
-        callApi('products').then(res => {
-            this.setState({
-                products: res.data
-            });
-            
-        })
+        this.props.actFetchProductsRequest();
     }
     showProductItem = (products) => {
         let result = null;
@@ -50,24 +42,22 @@ class ProductList extends React.Component {
         return result;
     }
     deleteProduct = (id) => {
-        callApi(`products/${id}`, 'DELETE').then(res => {
-            if(res.status === 200){
-                const products = this.state.products;
-                const index = products.findIndex((product, index) => {
-                    return product.id === id
-                });
-                products.splice(index, 1);
-                this.setState({
-                    products
-                })
-            }
-        });
+        this.props.actDeleteProductRequest(id)
     }
 }
-    
-// const mapStateToProps = state => {
-//     return {
-//         products: state.products
-//     }
-// }
-export default connect(null, null)(ProductList);
+const mapStateToProps = state => {
+    return {
+        products: state.products
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        actFetchProductsRequest: () => {
+            dispatch(actFetchProductsRequest())
+        },
+        actDeleteProductRequest : (id) => {
+            dispatch(actDeleteProductRequest(id))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

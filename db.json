@@ -2,13 +2,13 @@
   "products": [
     {
       "name": "Nguyễn Hoàng",
-      "price": 4,
+      "price": 1234567890,
       "status": false,
       "id": 1
     },
     {
       "name": "Nguyễn Hoàng",
-      "price": 0,
+      "price": 123123,
       "status": true,
       "id": 2
     }

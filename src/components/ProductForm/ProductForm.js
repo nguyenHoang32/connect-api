@@ -1,6 +1,8 @@
 import React from 'react';
 import callApi from '../../uliti/callApi';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
+import { connect } from 'react-redux';
+import { actEditProduct, actAddProductRequest, actUpdateProductRequest } from '../../action/index';
 class ProductForm extends React.Component {
     state = {
         name: '',
@@ -11,14 +13,21 @@ class ProductForm extends React.Component {
     componentDidMount = () => {
         const { match } = this.props;
         if(match){
-            callApi(`products/${match.params.id}`).then((res) => {
-                const editProduct = res.data;
-                this.setState({
-                    name: editProduct.name,
-                    price: editProduct.price,
-                    status: editProduct.status,
-                    id: match.params.id
-                })
+            // callApi(`products/${match.params.id}`, 'GET', null).then((res) => {
+            //     const editProduct = res.data;
+            //     this.setState({
+                    // name: editProduct.name,
+                    // price: editProduct.price,
+                    // status: editProduct.status,
+                    // id: match.params.id
+            //     })
+            // })
+            const editProduct = this.props.itemEditing;
+            this.setState({
+                name: editProduct.name,
+                price: editProduct.price,
+                status: editProduct.status,
+                id: match.params.id
             })
         }
     }
@@ -35,23 +44,23 @@ class ProductForm extends React.Component {
         let product = this.state;
         product['price'] = Number(product['price']);
         if(this.state.id){
-            callApi(`products/${this.state.id}`, 'PUT', product).then(() => this.props.history.goBack());
+            this.props.actUpdateProductRequest(product);
             this.setState({
                 name: '',
                 price: '',
                 status: false,
                 id: undefined
-            })
+            });
+            this.props.history.goBack()
         }
         else{
-            callApi('products', 'POST', product).then(() => {
-                this.props.history.goBack()
-            });
+            this.props.actAddProductRequest(this.state);
             this.setState({
                 name: '',
                 price: '',
                 status: false,
             })
+            this.props.history.goBack();
         }
     }
     render() {
@@ -96,4 +105,22 @@ class ProductForm extends React.Component {
         )
     }
 }
-export default ProductForm;
+const mapStateToProps = (state) => {
+    return{
+        itemEditing: state.itemEditing
+    }
+}
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        actAddProductRequest: (product) => {
+            dispatch(actAddProductRequest(product))
+        },
+        actEditProduct: (product) => {
+            dispatch(actEditProduct(product))
+        },
+        actUpdateProductRequest: (product) => {
+            dispatch(actUpdateProductRequest(product))
+        }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
