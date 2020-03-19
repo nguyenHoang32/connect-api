@@ -1,5 +1,4 @@
 import React from 'react';
-import callApi from '../../uliti/callApi';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { connect } from 'react-redux';
 import { actEditProduct, actAddProductRequest, actUpdateProductRequest } from '../../action/index';
@@ -13,22 +12,16 @@ class ProductForm extends React.Component {
     componentDidMount = () => {
         const { match } = this.props;
         if(match){
-            // callApi(`products/${match.params.id}`, 'GET', null).then((res) => {
-            //     const editProduct = res.data;
-            //     this.setState({
-                    // name: editProduct.name,
-                    // price: editProduct.price,
-                    // status: editProduct.status,
-                    // id: match.params.id
-            //     })
-            // })
-            const editProduct = this.props.itemEditing;
-            this.setState({
-                name: editProduct.name,
-                price: editProduct.price,
-                status: editProduct.status,
-                id: match.params.id
+            callApi(`products/${match.params.id}`, 'GET', null).then((res) => {
+                const editProduct = res.data;
+                this.setState({
+                    name: editProduct.name,
+                    price: editProduct.price,
+                    status: editProduct.status,
+                    id: match.params.id
+                })
             })
+
         }
     }
     onChange = (e) => {
