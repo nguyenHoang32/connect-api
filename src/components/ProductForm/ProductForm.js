@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
 import { connect } from 'react-redux';
+import callApi from '../../uliti/callApi';
 import { actEditProduct, actAddProductRequest, actUpdateProductRequest } from '../../action/index';
 class ProductForm extends React.Component {
     state = {
