@@ -1,45 +1,55 @@
-import React from 'react';
-import { Button, Badge } from 'reactstrap';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { actEditProduct } from '../../action/index';
+import React from "react";
+
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+import { actEditProduct } from "../../action/index";
+import { TableRow, TableCell, ButtonGroup, Button } from "@material-ui/core";
 
 class ProductItem extends React.Component {
-    onCLick = () => {
-        actEditProduct(this.props.product)
-    }
-    render() {
-        const { product, index } = this.props;
-        return (
-            <tr>
-                <td>{index + 1}</td>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.status ? <Badge color="info">Còn hàng</Badge> : <Badge color="secondary">Hết hàng</Badge>}</td>
-                <td>
-                    <Button
-                        color="warning">
-                        <Link to={"/product/" + product.id + "/edit"}
-                        onClick={this.onCLick}>
-                            Chỉnh sửa
-                    </Link>
-                    </Button>
-                    <Button
-                        color="primary"
-                        onClick={() => this.props.deleteProduct(product.id)}>
-                        Xóa
-                </Button>
-                </td>
-            </tr>
-        )
-    }
+  onClick = () => {
+    actEditProduct(this.props.product);
+  };
+  render() {
+    const { product, index } = this.props;
+    return (
+      <TableRow>
+        <TableCell component="th" scope="row">
+          {index + 1}
+        </TableCell>
+        <TableCell align="center">{product.id}</TableCell>
+        <TableCell align="center">{product.name}</TableCell>
+        <TableCell align="center">{product.price}</TableCell>
+        <TableCell align="center">{product.quantity}</TableCell>
+        <TableCell align="center">
+          <ButtonGroup
+            color="primary"
+            aria-label="outlined primary button group"
+          >
+            <Button
+              component={Link}
+              to={"/product/" + product.id + "/edit"}
+              onClick={this.onClick}
+            >
+              Chỉnh sửa
+            </Button>
+            <Button
+              color="secondary"
+              onClick={() => this.props.deleteProduct(product.id)}
+            >
+              Xóa
+            </Button>
+          </ButtonGroup>
+        </TableCell>
+      </TableRow>
+    );
+  }
 }
 const mapDispatchToProps = (dispatch, props) => {
-    return{
-        actEditProduct: product => {
-            dispatch(actEditProduct(product))
-        }
-    }
-}
+  return {
+    actEditProduct: (product) => {
+      dispatch(actEditProduct(product));
+    },
+  };
+};
 export default connect(null, mapDispatchToProps)(ProductItem);

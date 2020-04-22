@@ -1,120 +1,149 @@
-import React from 'react';
-import { Button, Form, FormGroup, Input, Label } from 'reactstrap';
-import { connect } from 'react-redux';
-import callApi from '../../uliti/callApi';
-import { actEditProduct, actAddProductRequest, actUpdateProductRequest } from '../../action/index';
+import React from "react";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import callApi from "../../uliti/callApi";
+import {
+  actEditProduct,
+  actAddProductRequest,
+  actUpdateProductRequest,
+} from "../../action/index";
+import {
+  FormGroup,
+  FormLabel,
+  InputAdornment,
+  Input,
+  withStyles,
+  Button,
+} from "@material-ui/core";
+import styles from "./styles.js";
 class ProductForm extends React.Component {
-    state = {
-        name: '',
-        price: '',
-        status: false,
-        id: undefined
-    }
-    componentDidMount = () => {
-        const { match } = this.props;
-        if(match){
-            callApi(`products/${match.params.id}`, 'GET', null).then((res) => {
-                const editProduct = res.data;
-                this.setState({
-                    name: editProduct.name,
-                    price: editProduct.price,
-                    status: editProduct.status,
-                    id: match.params.id
-                })
-            })
-
-        }
-    }
-    onChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+  state = {
+    name: "",
+    price: undefined,
+    quantity: undefined,
+    id: undefined,
+  };
+  componentDidMount = () => {
+    const { match } = this.props;
+    if (match) {
+      callApi(`products/${match.params.id}`, "GET", null).then((res) => {
+        const editProduct = res.data;
         this.setState({
-            [name]: value
-        })
-
+          name: editProduct.name,
+          price: editProduct.price,
+          quantity: editProduct.quantity,
+          id: match.params.id,
+        });
+      });
     }
-    onSubmit = (e) => {
-        e.preventDefault();
-        let product = this.state;
-        product['price'] = Number(product['price']);
-        if(this.state.id){
-            this.props.actUpdateProductRequest(product);
-            this.setState({
-                name: '',
-                price: '',
-                status: false,
-                id: undefined
-            });
-            this.props.history.goBack()
-        }
-        else{
-            this.props.actAddProductRequest(this.state);
-            this.setState({
-                name: '',
-                price: '',
-                status: false,
-            })
-            this.props.history.goBack();
-        }
+  };
+  onChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  };
+  onSubmit = (e) => {
+    e.preventDefault();
+    let product = this.state;
+    product["price"] = Number(product["price"]);
+    product["quantity"] = Number(product["quantity"]);
+    if (this.state.id) {
+      this.props.actUpdateProductRequest(product);
+      this.setState({
+        name: "",
+        price: "",
+        quantity: undefined,
+        id: undefined,
+      });
+      this.props.history.goBack();
+    } else {
+      this.props.actAddProductRequest(this.state);
+      this.setState({
+        name: "",
+        price: undefined,
+        quantity: undefined,
+        id: undefined,
+      });
+      this.props.history.goBack();
     }
-    render() {
-        const { name, price, status } = this.state;
-        return (
-            <Form onSubmit={this.onSubmit}>
-                <FormGroup>
-                    Tên:
-                        <Input
-                        type="text"
-                        placeholder="Nhập tên sản phẩm"
-                        name="name"
-                        value={name}
-                        onChange={this.onChange}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    Giá tiền
-                        <Input
-                        type="number"
-                        name="price"
-                        value={price}
-                        onChange={this.onChange}
-                    />
-                </FormGroup>
-                <FormGroup check>
-                    <Label check>
-                        <Input
-                            type="checkbox"
-                            name="status"
-                            checked={status}
-                            onChange={this.onChange} />
-                        Còn hàng
-                        </Label>
-                </FormGroup>
-                <Button
-                    type="submit"
-                    color="success">
-                    Thêm
-                    </Button>
-            </Form>
-        )
-    }
+  };
+  render() {
+    const { classes } = this.props;
+    const { name, price, quantity, id } = this.state;
+    return (
+      <form onSubmit={this.onSubmit} className={classes.form}>
+        {id === undefined ? <h1>THÊM SẢN PHẨM</h1> : <h1>CHỈNH SỬA SẢN PHẨM</h1>}
+        <FormGroup>
+          <FormLabel htmlFor="name">Name</FormLabel>
+          <Input
+            type="text"
+            id="name"
+            name="name"
+            value={name}
+            onChange={this.onChange}
+            required
+          />
+        </FormGroup>
+        <FormGroup></FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="price">Price</FormLabel>
+          <Input
+            id="price"
+            name="price"
+            type="number"
+            value={price || ""}
+            onChange={this.onChange}
+            endAdornment={<InputAdornment position="end">vnđ</InputAdornment>}
+            onKeyDown={(e) => e.keyCode !== 69}
+            required
+          />
+        </FormGroup>
+        <FormGroup>
+          <FormLabel htmlFor="quantity">Quantity</FormLabel>
+          <Input
+            id="quantity"
+            type="number"
+            name="quantity"
+            value={quantity || ""}
+            onChange={this.onChange}
+            onKeyDown={(e) => e.keyCode !== 69}
+            required
+          />
+        </FormGroup>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.btn}
+        >
+          {id === undefined ? 'Thêm' : 'Cập nhập'}
+        </Button>
+      </form>
+    );
+  }
 }
 const mapStateToProps = (state) => {
-    return{
-        itemEditing: state.itemEditing
-    }
-}
+  return {
+    itemEditing: state.itemEditing,
+  };
+};
 const mapDispatchToProps = (dispatch, props) => {
-    return {
-        actAddProductRequest: (product) => {
-            dispatch(actAddProductRequest(product))
-        },
-        actEditProduct: (product) => {
-            dispatch(actEditProduct(product))
-        },
-        actUpdateProductRequest: (product) => {
-            dispatch(actUpdateProductRequest(product))
-        }
-    }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
+  return {
+    actAddProductRequest: (product) => {
+      dispatch(actAddProductRequest(product));
+    },
+    actEditProduct: (product) => {
+      dispatch(actEditProduct(product));
+    },
+    actUpdateProductRequest: (product) => {
+      dispatch(actUpdateProductRequest(product));
+    },
+  };
+};
+// export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
+export default compose(
+  withStyles(styles),
+  connect(mapStateToProps, mapDispatchToProps)
+)(ProductForm);

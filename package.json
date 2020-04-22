@@ -1,5 +1,5 @@
 {
-  "name": "react-app-covid",
+  "name": "react-app",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -7,24 +7,24 @@
     "node": "12.13.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.9.10",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.50",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
-    "boostrap": "^2.0.0",
-    "bootstrap": "^4.4.1",
     "concurrently": "^5.1.0",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "reactstrap": "^8.4.1",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "concurrently \"react-scripts start\" \"npx json-server --watch db.json --port https://obscure-lake-96240.herokuapp.com/4000\" ",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

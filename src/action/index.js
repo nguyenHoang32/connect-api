@@ -67,3 +67,10 @@ export const actUpdateProductRequest = (product) => {
         )
     }
 }
+// -------------------------------------------------
+export const actSearchProduct = (searchValue) => {
+    return {
+        type: Types.SEARCH_PRODUCT,
+        searchValue
+    }
+}
