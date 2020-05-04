@@ -1,13 +1,14 @@
 import React from "react";
 import "./App.css";
 import Menu from "./components/Menu/Menu";
-import { Grid, AppBar, Tabs, Paper, withStyles } from "@material-ui/core";
+import { Grid, Paper, withStyles } from "@material-ui/core";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import APPBAR from './components/AppBar/APPBAR'
 import routes from "./routes";
 const styles = {
   Paper: {
-    padding: 20,
-    marginTop: 20,
+    padding: 10,
+    marginTop: 10,
     minHeight: "300px",
   },
 };
@@ -28,16 +29,14 @@ class App extends React.Component {
     return (
       <Router>
         <div className="App">
-          <AppBar position="static">
-            <Tabs></Tabs>
-          </AppBar>
+          <APPBAR/>
           <Grid container spacing={3}>
-            <Grid item xs={3}>
+            <Grid item xs={3} sm={2}>
               <Paper className={classes.Paper}>
                 <Menu />
               </Paper>
             </Grid>
-            <Grid item xs={9}>
+            <Grid item xs={9} sm={10}>
               <Paper className={classes.Paper}>
                 <Switch>{this.showRoute()}</Switch>
               </Paper>

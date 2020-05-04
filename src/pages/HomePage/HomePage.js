@@ -1,10 +1,11 @@
 import React from 'react';
+import {Typography} from '@material-ui/core';
 class HomePage extends React.Component{
     render(){
         return( 
-            <div>
+            <Typography variant="h2">
                 Home page
-            </div>
+            </Typography>
         )
     }
 }

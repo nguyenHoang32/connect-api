@@ -14,6 +14,7 @@ import {
   Input,
   withStyles,
   Button,
+  Container
 } from "@material-ui/core";
 import styles from "./styles.js";
 class ProductForm extends React.Component {
@@ -73,6 +74,9 @@ class ProductForm extends React.Component {
     const { classes } = this.props;
     const { name, price, quantity, id } = this.state;
     return (
+      <Container>
+
+      
       <form onSubmit={this.onSubmit} className={classes.form}>
         {id === undefined ? <h1>THÊM SẢN PHẨM</h1> : <h1>CHỈNH SỬA SẢN PHẨM</h1>}
         <FormGroup>
@@ -121,6 +125,7 @@ class ProductForm extends React.Component {
           {id === undefined ? 'Thêm' : 'Cập nhập'}
         </Button>
       </form>
+      </Container>
     );
   }
 }

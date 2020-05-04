@@ -6,7 +6,6 @@ import {
   actFetchProductsRequest,
   actDeleteProductRequest,
 } from "../../action/index";
-import Alert from '@material-ui/lab/Alert';
 import {
   Table,
   TableBody,
