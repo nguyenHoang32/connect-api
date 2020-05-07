@@ -1,8 +1,6 @@
 import React from "react";
-
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { actEditProduct } from "../../action/index";
 import { TableRow, TableCell, ButtonGroup, Button } from "@material-ui/core";
 
@@ -24,7 +22,6 @@ class ProductItem extends React.Component {
         <TableCell align="center">
           <ButtonGroup
             color="primary"
-            aria-label="outlined primary button group"
           >
             <Button
               component={Link}

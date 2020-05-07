@@ -1,20 +1,13 @@
-const styles = {
-  form: {
-    width: "400px",
-    margin: "0 auto",
-    "& .MuiFormGroup-root": {
-      marginTop: "18px",
-    },
-    "& h1": {
-      textAlign: "center",
-      textTransform: "uppercase",
-      fontWeight: "400",
-    },
+const styles = theme => ({
+  formGroup: {
+    marginTop: theme.spacing(2),
+  },
+  formGroupLastChild: {
+    marginBottom: theme.spacing(2),
   },
   btn: {
-    display: "block",
-    width: "100%",
-    marginTop: "25px",
-  },
-};
+    width: '100%',
+    marginBottom: theme.spacing(0.5)
+  }
+});
 export default styles;

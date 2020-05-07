@@ -28,13 +28,13 @@ class Menu extends React.Component {
     return (
       <List disablePadding>
         <ListItem className={classes.listItem}>
-          <NavLink to="/" exact className={classes.link}>
+          <NavLink to="/" exact className={classes.link} activeClassName={classes.active}>
             <HomeIcon/>
             <Typography>Home</Typography>
           </NavLink>
         </ListItem>
         <ListItem className={classes.listItem}>
-          <NavLink to="/products" className={classes.link}>
+          <NavLink to="/products" className={classes.link} activeClassName={classes.active}>
             <LoyaltyIcon />
             <Typography>Quản lí sản phẩm</Typography>
           </NavLink>

@@ -14,7 +14,7 @@ import {
   Input,
   withStyles,
   Button,
-  Container
+  Typography,
 } from "@material-ui/core";
 import styles from "./styles.js";
 class ProductForm extends React.Component {
@@ -73,13 +73,13 @@ class ProductForm extends React.Component {
   render() {
     const { classes } = this.props;
     const { name, price, quantity, id } = this.state;
+    const title = id === undefined ? "THÊM SẢN PHẨM" : "CHỈNH SỬA SẢN PHẨM";
     return (
-      <Container>
-
-      
-      <form onSubmit={this.onSubmit} className={classes.form}>
-        {id === undefined ? <h1>THÊM SẢN PHẨM</h1> : <h1>CHỈNH SỬA SẢN PHẨM</h1>}
-        <FormGroup>
+      <form onSubmit={this.onSubmit}>
+        <Typography variant="h4" align="center">
+          {title}
+        </Typography>
+        <FormGroup className={classes.formGroup}>
           <FormLabel htmlFor="name">Name</FormLabel>
           <Input
             type="text"
@@ -90,8 +90,7 @@ class ProductForm extends React.Component {
             required
           />
         </FormGroup>
-        <FormGroup></FormGroup>
-        <FormGroup>
+        <FormGroup className={classes.formGroup}>
           <FormLabel htmlFor="price">Price</FormLabel>
           <Input
             id="price"
@@ -104,7 +103,9 @@ class ProductForm extends React.Component {
             required
           />
         </FormGroup>
-        <FormGroup>
+        <FormGroup
+          className={`${classes.formGroup} ${classes.formGroupLastChild}`}
+        >
           <FormLabel htmlFor="quantity">Quantity</FormLabel>
           <Input
             id="quantity"
@@ -117,15 +118,14 @@ class ProductForm extends React.Component {
           />
         </FormGroup>
         <Button
+          className={classes.btn}
           type="submit"
           variant="contained"
           color="primary"
-          className={classes.btn}
         >
-          {id === undefined ? 'Thêm' : 'Cập nhập'}
+          {id === undefined ? "Thêm" : "Cập nhập"}
         </Button>
       </form>
-      </Container>
     );
   }
 }
