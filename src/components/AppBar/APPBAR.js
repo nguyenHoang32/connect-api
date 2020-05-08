@@ -1,11 +1,10 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Popover,
-  Button,
-} from "@material-ui/core";
+import AppBar from "@material-ui/core/AppBar";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import FaceIcon from "@material-ui/icons/Face";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -14,46 +13,68 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import { withStyles } from "@material-ui/core/styles";
-const styles = theme => ({
-  link: {
-    color: '#fff',
-    textDecoration: 'none'
-  }
-})
-  
+import { Popover, Button } from "@material-ui/core";
 
-class APPBAR extends React.Component {
-  state = {
-    anchorEl: null,
+const drawerWidth = 240;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  appBar: {
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(100% - ${drawerWidth}px)`,
+      marginLeft: drawerWidth,
+    },
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      display: "none",
+    },
+  },
+}));
+
+function APPBAR(props) {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const classes = useStyles();
+  const onClick = (e) => {
+    setAnchorEl(e.currentTarget);
   };
-  onClick = (e) => {
-    this.setState({
-      anchorEl: e.currentTarget,
-    });
+  const onClose = () => {
+    setAnchorEl(null);
   };
-  onClose = () => {
-    this.setState({
-      anchorEl: null,
-    });
-  };
-  render() {
-    const open = Boolean(this.state.anchorEl);
-    const classes = this.props.classes;
-    return (
-      <AppBar position="static">
+
+  const open = Boolean(anchorEl);
+  return (
+    <div className={classes.root}>
+      <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography style={{ flex: 1 }} color="inherit">
-            <Link to="/" className={classes.link}>ABC</Link>
-          </Typography>
-          <Button color="inherit">
-            <FaceIcon onClick={this.onClick} />
-          </Button>
+          <IconButton
+            color="inherit"
+            edge="start"
+            onClick={props.handleDrawerToggle}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
+          <div style={{ flex: 1 }}>
+            <Typography
+              color="inherit"
+              component={Link}
+              to="/"
+              style={{ textDecoration: "none" }}
+            >
+              Home
+            </Typography>
+          </div>
 
+          <Button color="inherit">
+            <FaceIcon onClick={onClick} />
+          </Button>
           <Popover
             open={open}
-            anchorEl={this.state.anchorEl}
-            onClose={this.onClose}
+            anchorEl={anchorEl}
+            onClose={onClose}
             anchorOrigin={{
               vertical: "bottom",
               horizontal: "center",
@@ -80,7 +101,8 @@ class APPBAR extends React.Component {
           </Popover>
         </Toolbar>
       </AppBar>
-    );
-  }
+    </div>
+  );
 }
-export default withStyles(styles)(APPBAR);
+
+export default APPBAR;

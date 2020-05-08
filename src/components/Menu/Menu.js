@@ -1,45 +1,36 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { List, ListItem, Typography } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import HomeIcon from "@material-ui/icons/Home";
 import LoyaltyIcon from "@material-ui/icons/Loyalty";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+
 const styles = {
-  link: {
-    textDecoration: "none",
-    display: 'inline-flex',
-    color: '#555',
-    width: '100%',
-    
-  },
-  listItem: {
-    padding: "8px",
-    '&:hover': {
-      backgroundColor: '#e1e5f1'
-    },
-  },
-  active: {
-    backgroundColor: '#e1e5f1'
-  }
 };
 class Menu extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <List disablePadding>
-        <ListItem className={classes.listItem}>
-          <NavLink to="/" exact className={classes.link} activeClassName={classes.active}>
+      <div>
+        <List>
+          <ListItem button component={NavLink} to="/">
+            <ListItemIcon>
             <HomeIcon/>
-            <Typography>Home</Typography>
-          </NavLink>
-        </ListItem>
-        <ListItem className={classes.listItem}>
-          <NavLink to="/products" className={classes.link} activeClassName={classes.active}>
-            <LoyaltyIcon />
-            <Typography>Quản lí sản phẩm</Typography>
-          </NavLink>
-        </ListItem>
-      </List>
+            </ListItemIcon>
+            <ListItemText primary="Home" />
+          </ListItem>
+        </List>
+        <List>
+          <ListItem button component={NavLink} to="/products">
+            <ListItemIcon>
+              <LoyaltyIcon />
+            </ListItemIcon>
+            <ListItemText primary="Products" />
+          </ListItem>
+        </List>
+      </div>
     );
   }
 }
