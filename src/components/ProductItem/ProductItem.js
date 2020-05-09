@@ -1,16 +1,31 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { actEditProduct } from "../../action/index";
-import { TableRow, TableCell, ButtonGroup, Button } from "@material-ui/core";
+import { actEditProduct, actDeleteProductRequest } from "../../action/index";
+import { TableRow, TableCell, ButtonGroup, Button, Dialog, DialogActions, DialogTitle } from "@material-ui/core";
+
+
 
 class ProductItem extends React.Component {
-  onClick = () => {
-    actEditProduct(this.props.product);
+  state = {
+    open: false
+  }
+  handleClickOpen  = () => {
+    this.setState({
+      open: true
+    })
+    
   };
+  handleClose = () => {
+    this.setState({
+      open: false
+    })
+  }
   render() {
+    const { open } = this.state;
     const { product, index } = this.props;
     return (
+      <React.Fragment>
       <TableRow>
         <TableCell component="th" scope="row">
           {index + 1}
@@ -26,19 +41,38 @@ class ProductItem extends React.Component {
             <Button
               component={Link}
               to={"/product/" + product.id + "/edit"}
-              onClick={this.onClick}
+              onClick={() => actEditProduct(this.props.product)}
             >
               Chỉnh sửa
             </Button>
             <Button
               color="secondary"
-              onClick={() => this.props.deleteProduct(product.id)}
+              onClick={this.handleClickOpen}
             >
               Xóa
             </Button>
           </ButtonGroup>
         </TableCell>
       </TableRow>
+        <Dialog
+        open={open}
+        onClose={this.handleClose}
+      >
+        <DialogTitle>Xóa sản phẩm?</DialogTitle>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Hủy
+          </Button>
+          <Button onClick={() => {
+            this.handleClose();
+            this.props.actDeleteProductRequest(product.id)
+          }} color="primary" autoFocus>
+            Đồng ý
+          </Button>
+        </DialogActions>
+      </Dialog>
+      </React.Fragment>
+      
     );
   }
 }
@@ -46,6 +80,9 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     actEditProduct: (product) => {
       dispatch(actEditProduct(product));
+    },
+    actDeleteProductRequest: (id) => {
+      dispatch(actDeleteProductRequest(id));
     },
   };
 };

@@ -1,29 +1,20 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
-import IconButton from "@material-ui/core/IconButton";
+import {IconButton, Toolbar, Typography, List, ListItem, ListItemIcon, ListItemText, Popover, Button } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
 import FaceIcon from "@material-ui/icons/Face";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { Popover, Button } from "@material-ui/core";
-
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import { connect } from 'react-redux';
+import { actToggleNavbar } from '../../action/index';
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-  },
   appBar: {
     [theme.breakpoints.up("sm")]: {
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
+      marginLeft: 0,
     },
   },
   menuButton: {
@@ -34,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function APPBAR(props) {
+function MyAppBar(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const classes = useStyles();
   const onClick = (e) => {
@@ -46,13 +37,13 @@ function APPBAR(props) {
 
   const open = Boolean(anchorEl);
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
             color="inherit"
             edge="start"
-            onClick={props.handleDrawerToggle}
+            onClick={props.actToggleNavbar}
             className={classes.menuButton}
           >
             <MenuIcon />
@@ -104,5 +95,11 @@ function APPBAR(props) {
     </div>
   );
 }
-
-export default APPBAR;
+const mapDispatchToProps = (dispatch) => {
+  return{
+    actToggleNavbar: () => {
+      dispatch(actToggleNavbar())
+    }
+  }
+}
+export default connect(null, mapDispatchToProps)(MyAppBar);

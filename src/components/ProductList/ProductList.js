@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import ProductItem from "../ProductItem/ProductItem";
 import {
   actFetchProductsRequest,
-  actDeleteProductRequest,
 } from "../../action/index";
 import {
   Table,
@@ -15,7 +14,11 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import CircularProgress from '@material-ui/core/CircularProgress';
 class ProductList extends React.Component {
+  state = {
+    isProgress: true
+  }
   render() {
     return (
       <TableContainer component={Paper}>
@@ -30,13 +33,25 @@ class ProductList extends React.Component {
               <TableCell align="center">Hành động</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>{this.showProductItem()}</TableBody>
+          <TableBody>
+          
+          <React.Fragment>{this.state.isProgress ? <CircularProgress /> : ''}</React.Fragment>
+          
+          {this.showProductItem()}
+          </TableBody>
         </Table>
       </TableContainer>
     );
   }
   componentDidMount = () => {
+    
+   setTimeout(() => {
     this.props.actFetchProductsRequest();
+      this.setState({
+        isProgress: false
+      });
+     
+   }, 1500)
   };
   showProductItem = () => {
     let result = null;
@@ -49,7 +64,6 @@ class ProductList extends React.Component {
             key={index}
             product={productSearch}
             index={index}
-            deleteProduct={this.deleteProduct}
           />
         ));
     } else {
@@ -58,15 +72,11 @@ class ProductList extends React.Component {
           key={index}
           product={product}
           index={index}
-          deleteProduct={this.deleteProduct}
         />
       ));
     }
     
     return result;
-  };
-  deleteProduct = (id) => {
-    this.props.actDeleteProductRequest(id);
   };
 }
 const mapStateToProps = (state) => {
@@ -79,9 +89,6 @@ const mapDispatchToProps = (dispatch, props) => {
   return {
     actFetchProductsRequest: () => {
       dispatch(actFetchProductsRequest());
-    },
-    actDeleteProductRequest: (id) => {
-      dispatch(actDeleteProductRequest(id));
     },
   };
 };

@@ -13,16 +13,14 @@ import appReducers from "./reducers/index";
 import thunk from "redux-thunk";
 const store = createStore(appReducers, compose(applyMiddleware(thunk)));
 let theme = createMuiTheme({
-  palette: {},
 });
 theme = responsiveFontSizes(theme);
 ReactDOM.render(
-  
+  <ThemeProvider theme={theme}>
     <Provider store={store}>
-    <ThemeProvider theme={theme}>
       <App />
-      </ThemeProvider>
-    </Provider>,
- 
+    </Provider>
+  </ThemeProvider>,
+
   document.getElementById("root")
 );

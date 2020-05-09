@@ -11,7 +11,6 @@ const styles = {
 };
 class Menu extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <List>

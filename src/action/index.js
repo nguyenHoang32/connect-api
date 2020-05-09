@@ -74,3 +74,7 @@ export const actSearchProduct = (searchValue) => {
         searchValue
     }
 }
+// ----------------------------------------------------
+export const actToggleNavbar = () => {
+    return {type: Types.TOGGLE_NAVBAR}
+}
