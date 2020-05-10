@@ -9,10 +9,11 @@ export const actFetchProducts = (products) => {
 }
 
 export const actFetchProductsRequest = () => {
-    return (dispatch) => {// tai sao lai phai co dispatch o day
-        callApi('products').then(res => {
-            dispatch(actFetchProducts(res.data))
-        })
+    return (dispatch) => {
+            dispatch(fetchProductStart());
+            callApi('products').then(res => {
+                dispatch(actFetchProducts(res.data));
+            }).catch(err => {dispatch(fetchProductFail())})
     }
 }
 // ------------------------------------------------------
@@ -77,4 +78,21 @@ export const actSearchProduct = (searchValue) => {
 // ----------------------------------------------------
 export const actToggleNavbar = () => {
     return {type: Types.TOGGLE_NAVBAR}
+}
+// -------------------------------------------------------
+export const fetchProductStart = () => {
+    return {
+        type: Types.FETCH_PRODUCT_START
+    }
+}
+// export const fetchProductSucess = (products) => {
+//     return {
+//         type: Types.FETCH_PRODUCT_SUCESS,
+//         products: products
+//     }
+// }
+export const fetchProductFail = () => {
+    return{
+        type: Types.FETCH_PRODUCT_FAIL
+    }
 }

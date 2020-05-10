@@ -80,7 +80,7 @@ class ProductForm extends React.Component {
           {title}
         </Typography>
         <FormGroup className={classes.formGroup}>
-          <FormLabel htmlFor="name">Name</FormLabel>
+          <FormLabel htmlFor="name">Tên</FormLabel>
           <Input
             type="text"
             id="name"
@@ -91,7 +91,7 @@ class ProductForm extends React.Component {
           />
         </FormGroup>
         <FormGroup className={classes.formGroup}>
-          <FormLabel htmlFor="price">Price</FormLabel>
+          <FormLabel htmlFor="price">Giá</FormLabel>
           <Input
             id="price"
             name="price"
@@ -106,7 +106,7 @@ class ProductForm extends React.Component {
         <FormGroup
           className={`${classes.formGroup} ${classes.formGroupLastChild}`}
         >
-          <FormLabel htmlFor="quantity">Quantity</FormLabel>
+          <FormLabel htmlFor="quantity">Số lượng</FormLabel>
           <Input
             id="quantity"
             type="number"
