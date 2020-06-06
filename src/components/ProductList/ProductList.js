@@ -54,7 +54,8 @@ class ProductList extends React.Component {
         .map((productSearch, index) => (
           <ProductItem key={index} product={productSearch} index={index} />
         ));
-    }else if(products.length === 0){
+    }
+    else if(products.length === 0){
       result = <TableRow style={{textAlign: 'center'}}><Typography color='error'>Không có sản phẩm</Typography></TableRow>
     } 
     else {
